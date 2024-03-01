@@ -54,13 +54,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/Users/kmahdi/data/wordpress'
+      device: '/home/khadija/data/wordpress'
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/Users/kmahdi/data/mariadb'
+      device: '/home/khadija/data/mariadb'
 
 networks:
   inception:

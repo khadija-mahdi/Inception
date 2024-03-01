@@ -8,7 +8,7 @@ sed -i "s/\(define( 'DB_PASSWORD', \).*$/\1'$MYSQL_PASSWORD' );/" /var/www/html/
 sed -i "s/\(define( 'DB_HOST', \).*$/\1'mariadb:3306' );/" /var/www/html/wp-config.php;
 
 wp core install --allow-root \
-    --url=https://localhost \
+    --url=https://kmahdi.42.fr \
     --title="new wiiiiiiiiiiii" \
     --admin_user=$WORDPRESS_ADMIN_USER \
     --admin_password=$WORDPRESS_ADMIN_PASSWORD \
