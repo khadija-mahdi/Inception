@@ -4,7 +4,7 @@
 service mariadb start
 sleep 2
 
-# Create database if not exists
+# Create database if not exist
 mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
 
 # Create user if not exists and grant privileges

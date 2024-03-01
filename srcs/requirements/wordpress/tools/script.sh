@@ -1,13 +1,21 @@
-# !/bin/bash
+#!/bin/bash
 
-cd /var/www/html/wordpress
+sleep 10
 
-#Downloading and extracting Wordpress core files to the current directory
-wp core download --allow-root
+sed -i "s/\(define( 'DB_NAME', \).*$/\1'$MYSQL_DATABASE' );/" /var/www/html/wp-config.php;
+sed -i "s/\(define( 'DB_USER', \).*$/\1'$MYSQL_USER' );/" /var/www/html/wp-config.php;
+sed -i "s/\(define( 'DB_PASSWORD', \).*$/\1'$MYSQL_PASSWORD' );/" /var/www/html/wp-config.php;
+sed -i "s/\(define( 'DB_HOST', \).*$/\1'mariadb:3306' );/" /var/www/html/wp-config.php;
 
-# Creating the wp-config.php file using this command.
-wp core config --dbname=${MYSQL_DATABASE} --dbuser=${MYSQL_USER} --dbpass=${MYSQL_PASSWORD} --dbhost=mariadb --allow-root
+wp core install --allow-root \
+    --url=https://localhost \
+    --title="new wiiiiiiiiiiii" \
+    --admin_user=$WORDPRESS_ADMIN_USER \
+    --admin_password=$WORDPRESS_ADMIN_PASSWORD \
+    --admin_email="kmahdi@student.1337.ma";
 
-# Installing wordpress using the given environment variables to avoid showing the wordpress installation page everytime we run the containe
-wp core install --url=${DOMAIN_NAME} --title=DopamInception --admin_user=${WP_USER} --admin_password=${WP_PW} --admin_email=${WP_EMAIL} --a
-exec $@
+wp user create --allow-root \
+    $WORDPRESS_USER1_PASSWORD "user@gmail.com" \
+    --user_pass=$WORDPRESS_USER1_PASSWORD
+
+exec "$@"
