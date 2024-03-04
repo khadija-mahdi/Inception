@@ -1,23 +1,24 @@
-# !/bin/bash
+#!/bin/bash
 
 # Start MariaDB service
 service mariadb start
-sleep 2
+
+# Wait for MariaDB to start
+sleep 5
 
 # Create database if not exist
-mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
+mysql -e "CREATE DATABASE IF NOT EXISTS \`${MARIA_DATABASE}\`;"
 
 # Create user if not exists and grant privileges
-mysql -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-mysql -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+mysql -e "CREATE USER IF NOT EXISTS \`${MARIA_USER}\`@'%' IDENTIFIED BY '${MARIA_PASSWORD}';"
+mysql -e "GRANT ALL PRIVILEGES ON \`${MARIA_DATABASE}\`.* TO \`${MARIA_USER}\`@'%';"
 
-# Set root password
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
-
-# Flush privileges
-mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+# Create root user if not exists and set password
+mysql -e "CREATE USER IF NOT EXISTS \`root\`@'%' IDENTIFIED BY '${MARIA_ROOT_PASSWORD}';"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO \`root\`@'%' WITH GRANT OPTION;"
+mysql -e "FLUSH PRIVILEGES;"
 
 # Shutdown MariaDB
-mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
+mysqladmin -u root -p"${MARIA_ROOT_PASSWORD}" shutdown
 
 mysqld_safe

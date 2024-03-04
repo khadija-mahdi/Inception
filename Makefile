@@ -1,21 +1,25 @@
-NAME = nginx
 
-GREEN = \033[0;32m
-RED = \033[0;31m
-NC = \033[0m #
+up:
+	@docker-compose -f srcs/docker-compose.yml up --build
 
-# > /dev/null 2>&1 || true
+down:
+	@docker-compose -f srcs/docker-compose.yml down
 
-Build:
-	@echo "$(GREEN)The image $(NAME) is building...$(NC)"
-	@docker build -t $(NAME) srcs/requirements/nginx/
-	@echo "$(GREEN)The image $(NAME) has been built.$(NC)"
+rmove_volumes:
+	@sudo rm -rf /home/khadija/data/wordpress/*
+	@sudo rm -rf /home/khadija/data/mariadb/*
 
-Run:
-	@echo "$(GREEN)The container $(NAME) is running...$(NC)"
-	@docker run -it $(NAME)
+remove_images:
+	@docker-compose -f srcs/docker-compose.yml down --rmi all
 
-Remove:
-	@echo "$(RED)Removing the image $(NAME)...$(NC)"
-	@docker rmi -f $(NAME) 
-	@echo "$(GREEN)The image $(NAME) has been removed.$(NC)"
+clean: down rmove_volumes remove_images
+
+fclean: rmove_volumes remove_images 
+	@docker-compose -f srcs/docker-compose.yml down 
+	@docker system prune --all
+
+ps:
+	@docker-compose -f srcs/docker-compose.yml ps
+
+logs:
+	@docker-compose -f srcs/docker-compose.yml logs
