@@ -46,7 +46,31 @@ services:
     env_file: .env
     ports:
       - "443:443"
-    restart: on-failure 
+    restart: on-failure
+  
+  redis:
+      container_name: redis
+      networks:
+        - inception
+      build:
+        context: requirements/bonus/redis
+        dockerfile: Dockerfile
+      env_file: .env
+      restart: on-failure
+  ftp:
+    container_name: ftp
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    build: 
+      context: requirements/bonus/ftp
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "20:20"
+      - "21:21"
+    restart: on-failure
 
 volumes:
   wordpress:
@@ -54,13 +78,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/khadija/data/wordpress'
+      device: '/home/kmahdi/data/wordpress'
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/khadija/data/mariadb'
+      device: '/home/kmahdi/data/mariadb'
 
 networks:
   inception:

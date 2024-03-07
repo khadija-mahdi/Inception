@@ -1,6 +1,7 @@
 FROM debian:bullseye
 
-RUN apt update
+RUN apt update -y && apt update -y
+
 RUN apt install -y zsh
 RUN apt install -y curl
 RUN apt install -y nginx
