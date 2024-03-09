@@ -1,10 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
-# Check if the FTP user already exists
-if id "ftpuser" &>/dev/null; then
-    echo "User 'ftpuser' already exists."
-else
-    # Create FTP user with the specified username and password from the .env file
-    adduser --disabled-password --gecos "" $FTP_USERNAME && echo "$FTP_USERNAME:$FTP_PASSWORD" | chpasswd
-    echo "User '$FTP_USERNAME' created."
-fi
+# Set up FTP user
+useradd -m $FTP_USERNAME
+echo "$FTP_USERNAME:$FTP_PASSWORD" | chpasswd
+
+# Adjust permissions
+chown $FTP_USERNAME:$FTP_USERNAME -R /home/$FTP_USERNAME/
+
+# Add user to vsftpd user list
+echo "$FTP_USERNAME" >> /etc/vsftpd.userlist 
+
+# Start vsftpd
+exec  vsftpd /etc/vsftpd.conf
