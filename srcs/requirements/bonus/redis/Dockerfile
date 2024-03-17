@@ -10,5 +10,6 @@ RUN apt-get install procps -y
 
 # Set ENTRYPOINT
 RUN service redis-server restart
+
 ENTRYPOINT ["redis-server", "--protected-mode", "no", "--bind", "0.0.0.0"]
 

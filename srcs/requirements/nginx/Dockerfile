@@ -2,12 +2,9 @@ FROM debian:bullseye
 
 RUN apt update -y && apt update -y
 
-RUN apt install -y zsh
-RUN apt install -y curl
 RUN apt install -y nginx
-RUN apt install -y git
+
 RUN apt install -y openssl
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 RUN mkdir -p /etc/nginx/ssl
 

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sleep 10
-
 # Update database configuration in wp-config.php
 sed -i "s/\(define( 'DB_NAME', \).*$/\1'$MARIA_DATABASE' );/" /var/www/html/wp-config.php;
 sed -i "s/\(define( 'DB_USER', \).*$/\1'$MARIA_USER' );/" /var/www/html/wp-config.php;
@@ -32,4 +30,4 @@ wp plugin update --all --allow-root ;
 wp redis enable --allow-root ;
 
 
-exec "$@"
+exec php-fpm7.4 -F

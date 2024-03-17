@@ -34,16 +34,12 @@ COPY ./tools/script.sh /usr/bin/script.sh
 # Make script executable
 RUN chmod +x /usr/bin/script.sh
 
-# Move wp-config file
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
 RUN mkdir -p /run/php/
 
-# ENTRYPOINT [ "tail", "-f" ]
+
 # Set entrypoint to script
 ENTRYPOINT ["sh", "/usr/bin/script.sh"]
-
-# CMD for PHP-FPM
-CMD [ "php-fpm7.4",  "-F"]

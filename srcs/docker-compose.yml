@@ -55,9 +55,10 @@ services:
       build:
         context: requirements/bonus/redis
         dockerfile: Dockerfile
+      depends_on:
+      - wordpress
       env_file: .env
       restart: on-failure
-      mem_limit: 1g
   ftp:
     container_name: ftp
     volumes:
@@ -90,6 +91,8 @@ services:
       dockerfile: Dockerfile
     networks:
       - inception
+    depends_on:
+      - mariadb
     ports:
       - 80:80
     restart: on-failure
@@ -104,10 +107,8 @@ services:
       - "3000:3000"
     restart: on-failure
 
-
-
 volumes:
-  wordpress:
+  wordpress: 
     driver: local
     driver_opts:
       type: 'none'
