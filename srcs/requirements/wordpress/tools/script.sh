@@ -8,15 +8,15 @@ sed -i "s/\(define( 'DB_HOST', \).*$/\1'mariadb:3306' );/" /var/www/html/wp-conf
 
 # Install WordPress and create admin user
 wp core install --allow-root \
-    --url=https://kmahdi.42.fr \
+    --url=$WORDPRESS_URL \
     --title="Inception" \
     --admin_user=$WORDPRESS_ADMIN_USER \
     --admin_password=$WORDPRESS_ADMIN_PASSWORD \
-    --admin_email="kmahdi@student.1337.ma";
+    --admin_email=$WORDPRESS_ADMIN_EMAIL;
 
 # Create additional WordPress user
 wp user create --allow-root \
-    $WORDPRESS_USER1_NAME "user@gmail.com" \
+    $WORDPRESS_USER1_NAME $WORDPRESS_USER1_EMAIL \
     --user_pass=$WORDPRESS_USER1_PASSWORD --role=author;
 
 # Download and Install WordPress Plugin
