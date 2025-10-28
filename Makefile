@@ -6,8 +6,7 @@ down:
 	@docker-compose -f srcs/docker-compose.yml down
 
 rmove_volumes:
-	sudo chmod 777 /home/kmahdi/data/mariadb
-	sudo chmod 777 /home/kmahdi/data/wordpress
+	@docker-compose -f srcs/docker-compose.yml down -v
 	@sudo rm -rf /home/kmahdi/data/wordpress/*
 	@sudo rm -rf /home/kmahdi/data/mariadb/*
 
@@ -19,9 +18,3 @@ clean: down rmove_volumes remove_images
 fclean: rmove_volumes remove_images 
 	@docker-compose -f srcs/docker-compose.yml down 
 	@docker system prune --all
-
-ps:
-	@docker-compose -f srcs/docker-compose.yml ps
-
-logs:
-	@docker-compose -f srcs/docker-compose.yml logs
